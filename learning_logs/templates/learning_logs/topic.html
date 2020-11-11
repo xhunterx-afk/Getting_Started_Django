@@ -1,0 +1,38 @@
+{% extends "learning_logs/base.html" %}
+
+{% block page_header %}
+	<br><h3>{{ topic }}</h3>
+{% endblock page_header %}
+
+{% block content %}
+	
+	<p>
+		<a href="{% url 'learning_logs:new_entry' topic.id %}">Add new entry <i class="fas fa-plus"></i> </a>
+		<!--{% if topic.image %}
+			<image src="{{topic.image.url}}" style="width:450px; height:253px; float:right; border-radius:8px"/></br>
+		{% endif %}-->
+	</p>
+		{% for entry in entries %}
+			<div class="card mb-3">
+				<h4 class="card-header" style="background-color:lightgray">
+					add by: {{user.username}}
+						<small><form method="post" action="{% url 'learning_logs:delete_entry' entry.id %}"> 
+							{% csrf_token %}
+							<button type="submit" class="btn btn-danger btn-primary" style='float:right'>
+							
+							Delete entry <i class="fas fa-trash-alt"></i> </button></form></small>
+						<small><a href="{% url 'learning_logs:edit_entry' entry.id %}" style="float:right">
+							<button method="submit" class="btn btn-primary" style='float:right'>
+								Edit entry <i class="far fa-edit"></i> </button></a></small>
+							
+					datetime: {{ entry.date_added|date:'M d, y H:i' }}
+				</h4>		
+				<div class="card-body"> 
+					{{ entry.text|linebreaks }}
+				</div>
+			</div></br>
+		{% empty %}
+			<h3><p><br><br><br><br> <i class="fas fa-times"></i>  There is no entries for this topic yet.</p></h3>
+		{% endfor %}
+
+{% endblock content %}

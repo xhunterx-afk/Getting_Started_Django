@@ -1,0 +1,8 @@
+{% extends "learning_logs\base.html" %}
+	{% block content %}
+		<form method="POST">
+			{% csrf_token %}
+			<input type="checkbox" value="Public"/>Public
+			<input type="checkbox" value="Private"/>Private
+			<input type="text" name="choices"/>
+	{% endblock content %}

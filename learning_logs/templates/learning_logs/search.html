@@ -1,0 +1,50 @@
+{% extends 'learning_logs/base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+	<form method="GET" action="{% url 'learning_logs:search' %}" >
+		{% csrf_token %}
+		<input name="q" value="{{request.GET.q}}" class ="form-control"
+		placeholder="Search.." style="width:500">
+	</form>
+
+		{% for topic in result %}
+				<div class="card-mb3">
+					<div class="card-header" style="background-color:lightgrey">
+						<table class="table">
+							<tr>
+								<!--<th>Image</th>-->
+								<th>Title of the topic</th>
+								<th>Edit</th>
+								<th>Delete</th>
+							</tr>
+					<div class="card-body" style="background-color:white">
+						<tr>
+							<td>
+								<!--{% if topic.image %}
+									<image src="{{topic.image.url}}" style="width:200px">
+								{% else %}
+									<span class="text-muted"> <i class="fas fa-exclamation-triangle"></i> No Image have been added</span>
+								{% endif %}-->
+							<td><h3>
+								<a href="{% url 'learning_logs:topic' topic.id %}" style="float:center">{{topic}}</a>
+							</td></h3>
+									
+							<td><small><a href="{% url 'learning_logs:edit_topic' topic.id %}">
+							<button method="submit" class="btn btn-primary">
+								Edit topic <i class="far fa-edit"></i> </button></a></small></td>
+							
+							<td><small><form method="post" action="{% url 'learning_logs:delete_topic' topic.id %}">
+							{% csrf_token %}
+							<button type="submit" class="btn btn-danger btn-primary" >
+							Delete topic <i class="fas fa-trash-alt"></i> </button></form></small></td>
+						</tr>
+					</div>
+				</div>
+			</div>
+			{% empty %}
+				<h3><p><br><br><br><br> <i class="fas fa-times"></i>  There is no Topic in that name yet</h3>
+		{% endfor %}
+
+{% endblock content %}
